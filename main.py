@@ -61,6 +61,13 @@ def updateAllSHAREGists(bookmarks_file):
     return gists
 
 
+def writeGistLinksToFile(linksToGistsMd):
+    config = getConfig()
+    if "gistLinksOutputFile" in config and config["gistLinksOutputFile"] != "":
+        with open(config["gistLinksOutputFile"], "w+") as f:
+            f.write(linksToGistsMd)
+
+
 if __name__ == "__main__":
     # Read the bookmarks file
     bookmarks_file = (
@@ -72,3 +79,4 @@ if __name__ == "__main__":
         "https://gist.github.com/"
         + createOrUpdateGist("listOfGists", linksToGistsMd, "listOfGists")
     )
+    writeGistLinksToFile(linksToGistsMd)
