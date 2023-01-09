@@ -72,7 +72,7 @@ def writeGistLinksToFile(linksToGistsMd):
 if __name__ == "__main__":
     # Read the bookmarks file
     ##concatonate home folder with bookmarks file path
-    bookmarks_file = os.path.expanduser(getConfig()["bookmarksFile"])
+    bookmarks_file = os.path.expanduser(getConfig()["bookmarksFilePath"])
     gists = updateAllSHAREGists(bookmarks_file)
     linksToGistsMd = dict_to_markdown_list(gists)
     print(
