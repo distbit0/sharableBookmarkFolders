@@ -86,3 +86,25 @@ def dict_to_markdown_list(urlList):
         name, url = item["name"], item["url"]
         markdown_list += f"- [{name}]({url})\n"
     return markdown_list
+
+
+def markdown_to_html(markdown):
+    html = ""
+    lines = markdown.split("\n")
+    current_indent = 0
+    for i, line in enumerate(lines):
+        nextLine = "-"
+        if i + 1 < len(lines):
+            nextLine = lines[i + 1]
+        stripped_line = line.strip()
+        nextLineIndent = nextLine.index("-")
+        if nextLineIndent > current_indent:
+            html += "<details><summary>" + stripped_line[1:] + "</summary>\n<ul>\n"
+        elif nextLineIndent == current_indent:
+            html += "<li>" + stripped_line[1:] + "</li>\n"
+        elif nextLineIndent < current_indent:
+            html += "<li>" + stripped_line[1:] + "</li>\n"
+            html += "</ul>\n</details>\n" * (current_indent - nextLineIndent)
+        current_indent = nextLineIndent
+    html += "</ul>\n"
+    return html
