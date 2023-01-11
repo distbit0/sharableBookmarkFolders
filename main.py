@@ -55,17 +55,17 @@ def updateAllSHAREGists(bookmarks_file):
         mdAsText = "\n".join(build_markdown_list(folder, 0))
         htmlFromMd = markdown_to_html(mdAsText)
         bookmarkGuid = share_bookmark["guid"]
-
+        writeGistLinksToFile(mdAsText, gistFileName)
         gistId = createOrUpdateGist(bookmarkGuid, htmlFromMd, gistFileName)
         gists.append({"name": gistFileName, "url": "https://gist.github.com/" + gistId})
 
     return gists
 
 
-def writeGistLinksToFile(linksToGistsMd):
+def writeGistLinksToFile(linksToGistsMd, fileName="1Bookmark Gists"):
     config = getConfig()
     if "gistLinksOutputFile" in config and config["gistLinksOutputFile"] != "":
-        with open(config["gistLinksOutputFile"], "w+") as f:
+        with open(config["gistLinksOutputFile"] + fileName + ".md", "w+") as f:
             f.write(linksToGistsMd)
 
 
