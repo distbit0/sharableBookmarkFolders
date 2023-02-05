@@ -1,7 +1,5 @@
 import os
 import json
-import random
-import string
 from utils import *
 
 # Recursive function to find bookmark folders with "SHARE" bookmark
@@ -28,7 +26,7 @@ def build_markdown_list(folder, indent_level):
     for child in folder["children"]:
         # If the child is a bookmark, append it to the markdown list
         if child["type"] == "url" and child["name"] != "SHARE":
-            markdown_list.append(" " * indent_level + "- " + child["url"])
+            markdown_list.append(" " * indent_level + "- [" + child["name"] + "](" + child["url"] + ")")
         # If the child is a folder, add its name to the markdown list and recursively build the list for its children
         elif child["type"] == "folder":
             markdown_list.append(" " * indent_level + "- " + child["name"])

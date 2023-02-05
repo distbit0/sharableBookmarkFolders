@@ -87,6 +87,11 @@ def dict_to_markdown_list(urlList):
         markdown_list += f"- [{name}]({url})\n"
     return markdown_list
 
+def convertMdUrlToHtmlUrl(mdUrl):
+    # convert a markdown formatted url to an <a href> formatted url string
+    name = mdUrl.split("](")[0][1:]
+    url = mdUrl.split("](")[1][:-1]
+    return f'<a href="{url}">{name}</a>'
 
 def markdown_to_html(markdown):
     html = ""
@@ -98,12 +103,15 @@ def markdown_to_html(markdown):
             nextLine = lines[i + 1]
         stripped_line = line.strip()
         nextLineIndent = nextLine.index("-")
+        htmlUrl = stripped_line[2:]
+        if nextLineIndent <= current_indent and "](" in stripped_line:
+            htmlUrl = convertMdUrlToHtmlUrl(stripped_line[2:])
         if nextLineIndent > current_indent:
             html += "<details><summary>" + stripped_line[1:] + "</summary>\n<ul>\n"
         elif nextLineIndent == current_indent:
-            html += "<li>" + stripped_line[1:] + "</li>\n"
+            html += "<li>" + htmlUrl + "</li>\n"
         elif nextLineIndent < current_indent:
-            html += "<li>" + stripped_line[1:] + "</li>\n"
+            html += "<li>" + htmlUrl + "</li>\n"
             html += "</ul>\n</details>\n" * (current_indent - nextLineIndent)
         current_indent = nextLineIndent
     html += "</ul>\n"
