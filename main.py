@@ -28,7 +28,7 @@ def build_markdown_list(folder, indent_level):
         if child["type"] == "url" and child["name"] != "SHARE":
             markdown_list.append(" " * indent_level + "- [" + child["name"] + "](" + child["url"] + ")")
         # If the child is a folder, add its name to the markdown list and recursively build the list for its children
-        elif child["type"] == "folder":
+        elif child["type"] == "folder" and "!" not in child["name"]:
             markdown_list.append(" " * indent_level + "- " + child["name"])
             markdown_list.extend(build_markdown_list(child, indent_level + 1))
     return markdown_list
